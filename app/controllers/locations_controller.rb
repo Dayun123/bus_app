@@ -14,17 +14,16 @@ class LocationsController < ApplicationController
   # GET /locations/1
   # GET /locations/1.json
   def show
-    # Marta API address, given here: http://www.itsmarta.com/app-developer-resources.aspx
-    bus_api_url = 'http://developer.itsmarta.com/BRDRestService/RestBusRealTimeService/GetAllBus'
 
-    # Get all the busses from the API, buses will be an array of JSON objects.
-    @buses = get_all_busses_from_api(bus_api_url)
+    @buses = find_buses
 
-    # Only keep the busses that are close to our user, select! will loop through each element (a JSON object representing a bus) and modify the buses array to only include buses that return true to the is_nearby? method to the array.
-    @buses.select! do |bus|
-      # This method determines the distance the bus is from the location the user entered and compares it to an acceptable distance that we expect a bus to be from the user. Only buses that return true from is_nearby? will be stored in the buses array after the select! method finishes.
-      is_nearby?(@location, bus)
+    if @buses.empty?
+      respond_to do |format|
+        format.html { redirect_to edit_location_url(@location), notice: "No buses within #{@location.acceptable_bus_distance} miles of this location!" }
+        format.json { render json: @location.errors, status: :unprocessable_entity }
+      end
     end
+
   end
 
   # GET /locations/new
@@ -86,4 +85,20 @@ class LocationsController < ApplicationController
     def location_params
       params.require(:location).permit(:street_address, :city, :latitude, :longitude, :acceptable_bus_distance)
     end
+
+    # Gets all busses that are acceptable_bus_distance from the user's location and set the @buses instance variable to an array of these buses.
+    def find_buses
+      # Marta API address, given here: http://www.itsmarta.com/app-developer-resources.aspx
+      bus_api_url = 'http://developer.itsmarta.com/BRDRestService/RestBusRealTimeService/GetAllBus'
+
+      # Get all the busses from the API, buses will be an array of JSON objects.
+      @buses = get_all_busses_from_api(bus_api_url)
+
+      # Only keep the busses that are close to our user, select! will loop through each element (a JSON object representing a bus) and modify the buses array to only include buses that return true to the is_nearby? method to the array.
+      @buses.select! do |bus|
+        # This method determines the distance the bus is from the location the user entered and compares it to an acceptable distance that we expect a bus to be from the user. Only buses that return true from is_nearby? will be stored in the buses array after the select! method finishes.
+        is_nearby?(@location, bus)
+      end
+    end
+
 end
