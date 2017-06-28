@@ -14,15 +14,16 @@ class LocationsController < ApplicationController
   # GET /locations/1
   # GET /locations/1.json
   def show
-    # Marta API address
+    # Marta API address, given here: http://www.itsmarta.com/app-developer-resources.aspx
     bus_api_url = 'http://developer.itsmarta.com/BRDRestService/RestBusRealTimeService/GetAllBus'
 
-    # Get all the busses from the API
+    # Get all the busses from the API, buses will be an array of JSON objects.
     @buses = get_all_busses_from_api(bus_api_url)
 
-    # Only keep the busses that are close to our user, select! will modify the buses array and only add busses that pass the is_nearby? method to the array.
+    # Only keep the busses that are close to our user, select! will loop through each element (a JSON object representing a bus) and modify the buses array to only include buses that return true to the is_nearby? method to the array.
     @buses.select! do |bus|
-      is_nearby?(@location.latitude, @location.longitude, bus["LATITUDE"], bus["LONGITUDE"])
+      # This method determines the distance the bus is from the location the user entered and compares it to an acceptable distance that we expect a bus to be from the user. Only buses that return true from is_nearby? will be stored in the buses array after the select! method finishes.
+      is_nearby?(@location, bus)
     end
   end
 
