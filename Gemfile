@@ -39,6 +39,8 @@ group :development, :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '~> 2.13'
   gem 'selenium-webdriver'
+
+  gem 'irbtools-more', require: 'irbtools/binding'
 end
 
 group :development do
@@ -52,3 +54,9 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+
+gem 'annotate'
+gem 'geocoder'
+gem 'stamp'
+gem 'bootstrap-sass'
+gem 'font-awesome-rails'
