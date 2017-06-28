@@ -10,11 +10,12 @@ end
 #
 # Table name: locations
 #
-#  id             :integer          not null, primary key
-#  street_address :string
-#  city           :string
-#  latitude       :float
-#  longitude      :float
-#  created_at     :datetime         not null
-#  updated_at     :datetime         not null
+#  id                      :integer          not null, primary key
+#  street_address          :string
+#  city                    :string
+#  latitude                :float
+#  longitude               :float
+#  created_at              :datetime         not null
+#  updated_at              :datetime         not null
+#  acceptable_bus_distance :float
 #

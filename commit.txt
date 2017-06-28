@@ -1,9 +1,10 @@
 Commit msg
 
-Get bus locations from MARTA in Locations#Show.
+Allow user to set acceptable bus distance.
 
-Add helper method to locations_helper to get Bus locations.
-  - A method to get the busses from the API
-  - A method to see if the busses are near enough to the user.
+- Add acceptable_bus_distance attribute to location model
+- Add acceptable_bus_distance field to form in locations/new.html.erb.
+- Whitelist acceptable_bus_distance in Locations controller.
+- Change logic in is_nearby? in Locations helper to better deal with
+  the fact that the user can now decide the acceptable bus distance.
 
-Add bus location info to locations show view.

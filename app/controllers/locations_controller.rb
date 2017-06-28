@@ -43,7 +43,7 @@ class LocationsController < ApplicationController
 
     respond_to do |format|
       if @location.save
-        format.html { redirect_to @location, notice: 'Location was successfully created.' }
+        format.html { redirect_to @location, notice: 'Location was successfully created.'}
         format.json { render :show, status: :created, location: @location }
       else
         format.html { render :new }
@@ -84,6 +84,6 @@ class LocationsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def location_params
-      params.require(:location).permit(:street_address, :city, :latitude, :longitude)
+      params.require(:location).permit(:street_address, :city, :latitude, :longitude, :acceptable_bus_distance)
     end
 end
