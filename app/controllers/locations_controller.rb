@@ -1,4 +1,8 @@
 class LocationsController < ApplicationController
+
+  # We created the get_all_busses_from_api and is_nearby? methods in the LocationsHelper Module, so we need to include that module.
+  include LocationsHelper
+
   before_action :set_location, only: [:show, :edit, :update, :destroy]
 
   # GET /locations
@@ -10,6 +14,16 @@ class LocationsController < ApplicationController
   # GET /locations/1
   # GET /locations/1.json
   def show
+    # Marta API address
+    bus_api_url = 'http://developer.itsmarta.com/BRDRestService/RestBusRealTimeService/GetAllBus'
+
+    # Get all the busses from the API
+    @buses = get_all_busses_from_api(bus_api_url)
+
+    # Only keep the busses that are close to our user, select! will modify the buses array and only add busses that pass the is_nearby? method to the array.
+    @buses.select! do |bus|
+      is_nearby?(@location.latitude, @location.longitude, bus["LATITUDE"], bus["LONGITUDE"])
+    end
   end
 
   # GET /locations/new

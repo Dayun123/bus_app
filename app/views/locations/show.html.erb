@@ -20,5 +20,22 @@
   <%= @location.longitude %>
 </p>
 
+<p>
+  <strong>Busses Close to You:</strong>
+    <ul>
+      <% @buses.each do |bus| %>
+        <li><%= bus.inspect %></li>
+        <li>Bus: <%= bus["VEHICLE"] %></li>
+        <li>Route: <%= bus["ROUTE"] %></li>
+        <li>Direction: <%= bus["DIRECTION"] %></li><br>
+      <% end %>
+    </ul>
+</p>
+
+<p>
+  <% if @buses.empty? %>
+    No buses close to you! Time to walk it...
+  <% end -%>
+</p>
+
 <%= link_to 'Edit', edit_location_path(@location) %> |
-<%= link_to 'Back', locations_path %>
