@@ -12,21 +12,26 @@ module LocationsHelper
     JSON.parse(bus_data)
   end
 
-  # Determines whether the bus is
+  # Determines whether the bus is close enough to the user to be displayed on the show view.
   def is_nearby?(user_location, bus)
 
-    # The distance in degrees that we will allow a bus to be considered close to us from. Use this website: http://www.csgnetwork.com/degreelenllavcalc.html and put in the the latitude of Atlanta, GA to see the distance in miles that one degree of latitude and longitude represents. 0.2 represents about 1 and a 1/2 miles in distance.
-    max_distance = 0.02
+    # The distance in miles for one degree of latitude and longitude in Atlanta, GA. Use this website: http://www.csgnetwork.com/degreelenllavcalc.html and put in the the latitude of Atlanta, GA (33.7490) to see the distance in miles that one degree of latitude and longitude represents.
+    distance_one_degree_lat_miles = 68.92101228371666
+    distance_one_degree_lon_miles = 57.57340026519574
 
     # The bus comes to us as a JSON object with string key/value pairs, so convert to float to get accurate calculations. These represent the legs of a right triangle.
     difference_lat = user_location.latitude - bus["LATITUDE"].to_f
     difference_lon = user_location.longitude - bus["LONGITUDE"].to_f
 
-    # Pythagorean theorem to find the actual distance, which represents the hypotenuese of a right triangle.
-    distance = Math.sqrt(difference_lat ** 2 + difference_lon ** 2)
+    # Convert the distances from degrees of latitude and longitude to miles so that we can compute the actual distance and the difference bwetween the user and this distance in miles instead of degrees.
+    difference_lat_miles = difference_lat * distance_one_degree_lat_miles
+    difference_lon_miles = difference_lon * distance_one_degree_lon_miles
 
-    # Returns whether the distance of the bus to the user is within our max_distance range
-    distance <= max_distance
+    # Pythagorean theorem to find the actual distance in miles, which represents the hypotenuese of a right triangle.
+    distance = Math.sqrt(difference_lat_miles ** 2 + difference_lon_miles ** 2)
+
+    # Returns whether the distance of the bus to the user is within our acceptable_bus_distance range.
+    distance <= user_location.acceptable_bus_distance
   end
 
 end
