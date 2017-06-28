@@ -1,10 +1,12 @@
 Commit msg
 
-Allow user to set acceptable bus distance.
+Add notice and redirect to edit view if no buses found within acceptable distance.
 
-- Add acceptable_bus_distance attribute to location model
-- Add acceptable_bus_distance field to form in locations/new.html.erb.
-- Whitelist acceptable_bus_distance in Locations controller.
-- Change logic in is_nearby? in Locations helper to better deal with
-  the fact that the user can now decide the acceptable bus distance.
-
+- Create a private helper method in the locations controller that finds
+  all the buses. (Refactored from original show method).
+- Add conditional statement to locations#show that checks to see if
+  there are any buses, and redirects to the locations#edit if there
+  aren't any.
+- Add notice to the locations/edit view
+  - Will display a message if there are no buses in the desired range.
+- Change form_with to form_for in _form partial.
