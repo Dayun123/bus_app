@@ -1,0 +1,9 @@
+Commit msg
+
+Get bus locations from MARTA in Locations#Show.
+
+Add helper method to locations_helper to get Bus locations.
+  - A method to get the busses from the API
+  - A method to see if the busses are near enough to the user.
+
+Add bus location info to locations show view.

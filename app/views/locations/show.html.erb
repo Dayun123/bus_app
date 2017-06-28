@@ -1,0 +1,41 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Street address:</strong>
+  <%= @location.street_address %>
+</p>
+
+<p>
+  <strong>City:</strong>
+  <%= @location.city %>
+</p>
+
+<p>
+  <strong>Latitude:</strong>
+  <%= @location.latitude %>
+</p>
+
+<p>
+  <strong>Longitude:</strong>
+  <%= @location.longitude %>
+</p>
+
+<p>
+  <strong>Busses Close to You:</strong>
+    <ul>
+      <% @buses.each do |bus| %>
+        <li><%= bus.inspect %></li>
+        <li>Bus: <%= bus["VEHICLE"] %></li>
+        <li>Route: <%= bus["ROUTE"] %></li>
+        <li>Direction: <%= bus["DIRECTION"] %></li><br>
+      <% end %>
+    </ul>
+</p>
+
+<p>
+  <% if @buses.empty? %>
+    No buses close to you! Time to walk it...
+  <% end -%>
+</p>
+
+<%= link_to 'Edit', edit_location_path(@location) %> |
