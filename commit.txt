@@ -5,3 +5,4 @@ Commit msg
   - Any secrets are now in config/application.yml
 - Add GoogleMapsAPI key to config/application.yml
 - Add JavaScript to pull in GoogleMaps API at the bottom of locations/show view.
+
