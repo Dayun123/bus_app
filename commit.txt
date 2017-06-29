@@ -1,12 +1,7 @@
 Commit msg
 
-Add notice and redirect to edit view if no buses found within acceptable distance.
 
-- Create a private helper method in the locations controller that finds
-  all the buses. (Refactored from original show method).
-- Add conditional statement to locations#show that checks to see if
-  there are any buses, and redirects to the locations#edit if there
-  aren't any.
-- Add notice to the locations/edit view
-  - Will display a message if there are no buses in the desired range.
-- Change form_with to form_for in _form partial.
+- Add figaro gem
+  - Any secrets are now in config/application.yml
+- Add GoogleMapsAPI key to config/application.yml
+- Add JavaScript to pull in GoogleMaps API at the bottom of locations/show view.
